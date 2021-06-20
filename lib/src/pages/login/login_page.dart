@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:validation/src/bloc/provider.dart';
 
 
 
@@ -17,7 +18,8 @@ class LoginPage extends StatelessWidget {
 
 
   _loginForm( BuildContext context) {
-
+    
+    final bloc =Provider.of(context);
     final size = MediaQuery.of(context).size;
 
      return SingleChildScrollView(
@@ -26,7 +28,7 @@ class LoginPage extends StatelessWidget {
 
           SafeArea(
             child: Container(
-              height: 180.0,
+              height: 160.0,
             ),
           ),
 
@@ -52,9 +54,9 @@ class LoginPage extends StatelessWidget {
               children: [
                 Text('Entrar', style: TextStyle(fontSize:  20.0)),
                 SizedBox(height: 30.0,),
-                _creatEmail(), 
+                _creatEmail( bloc), 
                 SizedBox(height: 30.0,),
-                _creatPassword(),
+                _creatPassword( bloc),
                SizedBox(height: 30.0,),
                 _createButton()
               ],
@@ -73,20 +75,31 @@ class LoginPage extends StatelessWidget {
      );
   }
 
-  _creatEmail(){
+  _creatEmail( LoginBloc bloc ){
 
-    return Container(
+    return StreamBuilder(
+      stream: bloc.emailStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot){
+        
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: TextField(
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              icon: Icon( Icons.alternate_email, color: Colors.deepPurple),
+              hintText: 'Seu email',
+              labelText: 'Email', 
+              counterText: snapshot.data, 
+              errorText: snapshot.error
+            ),
+            onChanged:  bloc.changeEmail,
+          ),
+        );
 
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: TextField(
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-          icon: Icon( Icons.alternate_email, color: Colors.deepPurple),
-          hintText: 'Seu email',
-          labelText: 'Email'
-        ),
-      ),
+      },
     );
+
+    
   }
 
   _createButton(){ 
@@ -109,19 +122,30 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-   _creatPassword(){
+   _creatPassword( LoginBloc bloc){
 
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      child: TextField(
-        obscureText: true,
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-          icon: Icon( Icons.lock_outline, color: Colors.deepPurple),
-          labelText: 'Password'
-        ),
-      ),
-    );
+     return StreamBuilder(
+       stream: bloc.passwordStream,
+       builder: (BuildContext context,  AsyncSnapshot snapshot){
+          
+       return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: TextField(
+            obscureText: true,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              icon: Icon( Icons.lock_outline, color: Colors.deepPurple),
+              labelText: 'Password',
+              counterText: snapshot.data ,
+               errorText: snapshot.error
+            ),
+            onChanged: bloc.changePassword,
+          ),
+       );
+      },
+     );
+
+    
   }
 
 
@@ -164,7 +188,7 @@ class LoginPage extends StatelessWidget {
 
 
         Container(
-          padding: const EdgeInsets.only(top: 80.0),
+          padding: const EdgeInsets.only(top: 50.0),
           child: Column(
             children: [
               Icon( Icons.person_pin_circle, color: Colors.white, size: 100.0),
