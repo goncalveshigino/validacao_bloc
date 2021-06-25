@@ -20,8 +20,17 @@ class ProductManager {
     return true;
   }
  
- Future<List<ProductModel>> loadingProducts(){
+ //Carregar todos produtos do firebase
+ Future<List<ProductModel>> loadingProducts() async {
+    
+     final url = '$_url/products.json'; 
+     final response = await http.get(url);
 
+     final decodedData = json.decode(response.body);
+     
+     print(decodedData); 
+
+     return [];
  }
 
 }

@@ -15,7 +15,7 @@ class _ProductPageState extends State<ProductPage> {
 final formKey = GlobalKey<FormState>();
 
 ProductModel product = new ProductModel();
-final productManager = new ProductsManager();
+final productManager = new ProductManager();
 
   @override
   Widget build(BuildContext context) {
