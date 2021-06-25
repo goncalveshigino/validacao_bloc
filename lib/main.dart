@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:validation/src/bloc/provider.dart';
 import 'package:validation/src/pages/home/home_page.dart';
 import 'package:validation/src/pages/login/login_page.dart';
 import 'package:validation/src/pages/product/product_page.dart';
-import 'package:validation/src/providers/product-manager.dart';
+
 
 void main() => runApp(MyApp());
 

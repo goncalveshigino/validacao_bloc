@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:validation/src/models/product-model.dart';
 import 'package:validation/src/providers/product-manager.dart';
 import 'package:validation/src/utils/utils.dart' as utils;

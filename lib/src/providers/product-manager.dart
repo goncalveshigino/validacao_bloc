@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:validation/src/models/product-model.dart';
 import 'package:http/http.dart' as http;
@@ -17,20 +16,31 @@ class ProductManager {
 
     print(decodedData);
     
-    return true;
+    return true; 
   }
  
  //Carregar todos produtos do firebase
  Future<List<ProductModel>> loadingProducts() async {
     
-     final url = '$_url/products.json'; 
+     final url = '$_url/products.json';
      final response = await http.get(url);
 
-     final decodedData = json.decode(response.body);
+     final Map<String, dynamic> decodedData = json.decode(response.body);
+     final List<ProductModel> products = new List();
      
-     print(decodedData); 
+     //Se nao existir dados no banco retorna nulo
+     if( decodedData == null ) return []; 
 
-     return [];
+     decodedData.forEach( (id, prod){
+
+       final prodTemp = ProductModel.fromJson(prod);
+       prodTemp.id = id;
+         
+       products.add( prodTemp );
+
+     });
+
+     return products;
  }
 
 }
