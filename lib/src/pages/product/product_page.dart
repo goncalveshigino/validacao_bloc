@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:validation/src/models/product-model.dart';
+import 'package:validation/src/providers/product-manager.dart';
 import 'package:validation/src/utils/utils.dart' as utils;
 
 class ProductPage extends StatefulWidget {
@@ -10,6 +13,9 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
 
 final formKey = GlobalKey<FormState>();
+
+ProductModel product = new ProductModel();
+final productManager = new ProductsManager();
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +42,7 @@ final formKey = GlobalKey<FormState>();
               children: [
                 _createName(),
                 _createPrice(),
+                //_createAvailable(),
                 SizedBox(
                   height: 20.0,
                 ),
@@ -50,10 +57,12 @@ final formKey = GlobalKey<FormState>();
 
   _createName() {
     return TextFormField(
+      initialValue: product.title,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         labelText: 'Produto',
       ),
+       onSaved: (value) => product.title = value,
       validator: (value) {
         if (value.length < 3) {
           return 'Insiea o nome do produto';
@@ -61,16 +70,17 @@ final formKey = GlobalKey<FormState>();
           return null;
         }
       },
-     // onSaved: (product) => product = product,
     );
   }
 
   _createPrice() {
     return TextFormField(
+        initialValue: product.price.toString(),
         keyboardType: TextInputType.numberWithOptions(decimal: true),
         decoration: InputDecoration(
           labelText: 'Preco',
         ),
+        onSaved: (value) => product.price = double.parse(value),
         validator: (value) {
           if (utils.isNumeric(value)) {
             return null;
@@ -78,7 +88,21 @@ final formKey = GlobalKey<FormState>();
             return 'Somente numero';
           }
         },
-       // onSaved: (price) => price = price,
+    );
+  }
+
+  _createAvailable(){
+     
+    // final available = Provider.of<ProductManager>(context);
+   
+    return SwitchListTile(
+      value: product.available,
+      title: Text('Disponivel'),
+      activeColor: Colors.deepPurple,
+      onChanged: (value) => 
+      setState((){
+        product.available = value;
+      }),
     );
   }
 
@@ -96,9 +120,17 @@ final formKey = GlobalKey<FormState>();
   void _submit() {
 
 
-    if(! formKey.currentState.validate()) return;
+    if(! formKey.currentState.validate() ) return;
+
+    formKey.currentState.save();
+
      print('Todo Ok');
-  
+     print( product.title);
+     print( product.price);
+     print( product.available); 
+
+     
+    productManager.createProduct(product);
 
   }
 }

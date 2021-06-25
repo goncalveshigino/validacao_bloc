@@ -4,7 +4,7 @@ import 'package:validation/src/bloc/provider.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of(context);
+    final bloc = BlocProvider.of(context);
 
     return Scaffold(
       appBar: AppBar(

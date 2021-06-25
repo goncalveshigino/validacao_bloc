@@ -19,7 +19,7 @@ class LoginPage extends StatelessWidget {
 
   _loginForm( BuildContext context) {
     
-    final bloc =Provider.of(context);
+    final bloc =BlocProvider.of(context);
     final size = MediaQuery.of(context).size;
 
      return SingleChildScrollView(
@@ -133,7 +133,7 @@ class LoginPage extends StatelessWidget {
     print('Email: ${bloc.email}');
     print('Password:  ${bloc.password}');
     print('==================');
-
+    
     Navigator.pushReplacementNamed(context, 'home');
   }
 
