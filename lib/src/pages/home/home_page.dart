@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text('Principal'),
         centerTitle: true,
       ),
       body: _createList(),
@@ -64,10 +64,19 @@ class HomePage extends StatelessWidget {
 
   _createItem( BuildContext context, ProductModel product){
     
-    return ListTile(
-       title: Text('${ product.title } - ${ product.price }'),
-       subtitle: Text( product.id ),
-       onTap: () => Navigator.pushNamed( context, 'product')
+    return Dismissible(
+      key: UniqueKey(),
+      background: Container(
+        color: Colors.redAccent
+      ),
+      onDismissed: ( diracao ){
+        // TODO: Apagar producto
+      },
+      child: ListTile(
+         title: Text('${ product.title } - ${ product.price }'),
+         subtitle: Text( product.id ),
+         onTap: () => Navigator.pushNamed( context, 'product')
+      ),
     );
 
   }
