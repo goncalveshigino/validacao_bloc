@@ -72,7 +72,11 @@ class HomePage extends StatelessWidget {
       onDismissed: ( direction ){
         // TODO: Apagar producto
       },
-     
+      child: ListTile(
+         title: Text('${ product.title } - ${ product.price }'),
+         subtitle: Text( product.id ),
+         onTap: () => Navigator.pushNamed( context, 'product')
+      ),
     );
 
   }
