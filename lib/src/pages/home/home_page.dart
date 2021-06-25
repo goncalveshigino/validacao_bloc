@@ -69,7 +69,7 @@ class HomePage extends StatelessWidget {
       background: Container(
         color: Colors.redAccent
       ),
-      onDismissed: ( diracao ){
+      onDismissed: ( direction ){
         // TODO: Apagar producto
       },
       child: ListTile(
